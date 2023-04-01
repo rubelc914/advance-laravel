@@ -1,8 +1,10 @@
-$(document).ready(function(){
-const post_id = $("#post-detail").attr("data-post-id");
+$(document).ready(function () {
+    getPosts();
+    const post_id = $("#post-detail").attr("data-post-id");
     getCommentsOfPosts(post_id);
 
-    $("#comment-submit-form").submit(function(e){
+
+    $("#comment-submit-form").submit(function (e) {
         e.preventDefault();
         const formData = $(this);
         // console.log(formData.serialize());
@@ -15,7 +17,7 @@ const post_id = $("#post-detail").attr("data-post-id");
             method: "POST",
             url: "api/comments/" + post_id,
             data: formData.serialize(),
-            success:(result)=>{
+            success: (result) => {
                 submitButton.html('save');
                 $("#comment-errors-data").html('');
                 $("#comment-input").val('');
@@ -24,10 +26,10 @@ const post_id = $("#post-detail").attr("data-post-id");
                 location.reload();
 
             },
-            error:(error)=>{
-                if(error.status === 422){
+            error: (error) => {
+                if (error.status === 422) {
                     $("#successMessage").addClass('visually-hidden');
-                    var message = error.responseJSON.errors ? error.responseJSON.errors.comment ?  error.responseJSON.errors.comment[0] : '' : '';
+                    var message = error.responseJSON.errors ? error.responseJSON.errors.comment ? error.responseJSON.errors.comment[0] : '' : '';
                     $("#comment-errors-data").html(message);
                     submitButton.html('save');
                 }
@@ -40,7 +42,7 @@ const post_id = $("#post-detail").attr("data-post-id");
 });
 
 function getCommentsOfPosts(post_id) {
-    if( typeof post_id !== 'undefined' && post_id !== '' && !isNaN(post_id)) {
+    if (typeof post_id !== 'undefined' && post_id !== '' && !isNaN(post_id)) {
         $.ajax({
             method: "GET",
             url: "/api/comments/" + post_id,
@@ -52,20 +54,22 @@ function getCommentsOfPosts(post_id) {
             }
         });
     }
-
-
-    //for post
-
-    function getPosts() {
-        $.ajax({
-            method: "GET",
-            url: "/api/posts",
-            success: (result) => {
-                $("#posts").html(result);
-            },
-            error: (error) => {
-                alert('Something went wrong to fetch datas...');
-            }
-        });
-    }
 }
+
+
+//for post
+
+function getPosts() {
+    $.ajax({
+        method: "GET",
+        url: "/api/posts",
+        success: (result) => {
+            console.log(result);
+            $("#posts").html(result);
+        },
+        error: (error) => {
+            alert('Something went wrong post  data...');
+        }
+    });
+}
+

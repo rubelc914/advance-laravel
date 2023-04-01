@@ -12,12 +12,16 @@ class PostController extends Controller
      * @return mixed
      */
     public function index(){
-        $posts = Post::with('comments')->paginate(20);
-        return view('index',compact('posts'));
+        return view('index');
     }
 
     public function show($id){
         $post = Post::find($id);
         return view('show',compact('post'));
+    }
+
+    public function allPosts(){
+        $posts = Post::with('comments')->paginate(20);
+        return view('template.posts',compact('posts'));
     }
 }

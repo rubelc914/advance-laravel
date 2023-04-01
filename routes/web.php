@@ -23,3 +23,4 @@ Route::get('/',[PostController::class,'index'])->name('index');
 Route::get('/{slug}',[PostController::class,'show'])->name('index.show');
 
 
+
